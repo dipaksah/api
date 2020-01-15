@@ -6,14 +6,15 @@ const dotenv = require('dotenv').config();
 const uploadRouter = require('./routes/upload');
 const auth = require('./routes/auth');
 const superRouter = require('./routes/supers');
-const categoryRouter=require('./routes/category');
+const flavoursRouter=require('./routes/flavours');
 const cors = require('cors');
 
 // sudo kill -9 `sudo lsof -t -i:2000`
 const app = express();
+app.options('*', cors());
+app.use(cors());
 app.use(morgan('tiny'));
 app.use(express.json());
-app.options('*', cors());
 app.use(express.urlencoded({extended: true }));
 
 app.use(express.static(__dirname + "/public"));
@@ -27,7 +28,7 @@ mongoose.connect(process.env.db, {useNewUrlParser: true, useUnifiedTopology: tru
 app.use('/users', userRouter);
 app.use('/upload', uploadRouter);
 app.use('/super7',superRouter);
-app.use('/category',categoryRouter);
+app.use('/flavours',flavoursRouter);
 //app.use(auth.verifyUser);
 
 app.use((err, req, res, next) => {
